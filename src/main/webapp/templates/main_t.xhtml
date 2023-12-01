@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+    <div class="main_form_container">
+        <a class="link cell" onclick="showTable()" id="btn"><img src="#{resource['images/cells.png']}" alt=""/></a>
+        <div class="main__text"> Введите координаты и параметр R для получения результата </div>
+        <h:form action="" id="info" onsubmit="return checkY()">
+            <div class="slider">
+                <div class="text">
+                    <h2>X</h2>
+                    <h:commandButton id="x1" styleClass="command_button" name="x" value="-2.0">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(-2.0)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x2" styleClass="command_button" name="x" value="-1.5" action="#{hitBean.setX(-1.5)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(-1.5)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x3" styleClass="command_button" name="x" value="-1.0" action="#{hitBean.setX(-1.0)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(-1.0)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x4" styleClass="command_button" name="x" value="-0.5" action="#{hitBean.setX(-0.5)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(-0.5)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x5" styleClass="command_button" name="x" value="0" action="#{hitBean.setX(0)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(0)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x6" styleClass="command_button" name="x" value="0.5" action="#{hitBean.setX(0.5)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(0.5)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x7" styleClass="command_button" name="x" value="1.0" action="#{hitBean.setX(1.0)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(1.0)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x8" styleClass="command_button" name="x" value="1.5" action="#{hitBean.setX(1.5)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(1.5)}"/>
+                    </h:commandButton>
+                    <h:commandButton id="x9" styleClass="command_button" name="x" value="2.0" action="#{hitBean.setX(2.0)}">
+                        <p:ajax update="output-x" listener="#{hitBean.setX(2.0)}"/>
+                    </h:commandButton>
+
+
+                    <br/>
+                    <h:outputText style="text-align: center" id="output-x" value="#{hitBean.point.x}"/>
+                </div>
+                <div class="text">
+                    <h2>Y</h2>
+                    <h:inputText  styleClass="input_style" id="y" value="#{hitBean.point.y}" required="true" requiredMessage="Введите Y!">
+                        <f:validator validatorId="validateY"/>
+                        <f:converter converterId="converterY"/>
+                        <f:ajax event="change" render="messageY"/>
+                    </h:inputText>
+                    <br/>
+                    <h:message for="y" id="messageY"/>
+
+                    <h:commandButton id="updateY" style="display: none" action="#{hitBean.setY()}">
+                        <p:ajax/>
+                    </h:commandButton>
+                    <script type="text/javascript">
+                        function changeY(y) {
+                            document.getElementById('info:y').value = y
+                            document.getElementById('info:updateY').click()
+                        }
+                    </script>
+                    <br/>
+                </div>
+                <div class="text">
+                    <h2>R</h2>
+                    <p:spinner widgetVar="r" required="true" styleClass="spinner" min="0.1" max="3" stepFactor="0.1">
+                        <p:ajax listener="#{hitBean.setR}"/>
+                    </p:spinner>
+                </div>
+            </div>
+            <div class="slider">
+                <div class="picture">
+                    <canvas width="210px" height="210px" id="canvas" style="background-image: url(#{resource['images/picture2.png']}); cursor: pointer"/>
+                </div>
+                <div class="button__border">
+                    <h:commandButton class="main__button" value="Проверить" id="submit" onclick="drawPoint()">
+                        <p:ajax update="table_main" listener="#{hitBean.addPoint()}"/>
+                    </h:commandButton>
+                    <h:inputHidden id="lastPointX" value="#{hitBean.lastPoint.x}"/>
+                    <h:inputHidden id="lastPointY" value="#{hitBean.lastPoint.y}"/>
+                    <h:inputHidden id="lastPointR" value="#{hitBean.lastPoint.r}"/>
+                    <h:inputHidden id="lastPointHit" value="#{hitBean.lastPoint.hit}"/>
+                    <script type="text/javascript">
+                        window.onload = function () {
+                            drawPointOnload()
+                        }
+                    </script>
+                </div>
+            </div>
+            <script type="text/javascript">
+                const canvas = document.getElementById("canvas");
+                canvas.addEventListener('click', makeForm, false);
+            </script>
+        </h:form>
+        <div class="table_container" id="table" style="visibility: hidden">
+            <h:dataTable id="table_main" var="point" value="#{hitBean.points}" styleClass="table">
+                <h:column style="width: 15%">
+                    <f:facet name="header">X</f:facet>
+                    #{point.x}
+                </h:column>
+                <h:column style="width: 15%">
+                    <f:facet name="header">Y</f:facet>
+                    #{point.y}
+                </h:column>
+                <h:column style="width: 15%">
+                    <f:facet name="header">R</f:facet>
+                    #{point.r}
+                </h:column>
+                <h:column style="width: 30%">
+                    <f:facet name="header">Результат</f:facet>
+                    <h:outputText rendered="#{point.hit == true}" value="Попадание" style="color:#48d848"/>
+                    <h:outputText rendered="#{point.hit == false}" value="Промах" style="color:#dd1818"/>
+                </h:column>
+            </h:dataTable>
+        </div>
+    </div>
+</h:body>
+
+</html>

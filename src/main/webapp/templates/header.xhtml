@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+    <table width="100%" id="main_table" class="main_table">
+        <tr>
+            <td>
+                <div class="header">
+                    <div class="container__head">
+                        <div class="image__head"> <img src="#{resource['images/itmo.png']}" alt="Итмо"/> </div>
+                        <div class="text__head"> Шикунов Максим Евгеньевич
+                            <br/> P3233
+                            <br/> 777
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="main__container">
+                    <div class="clock" id="timerRect">
+                        Текущее время
+                        <br/>
+                        <div id="clock"></div>
+                    </div>
+                    <h:button class="main__button" outcome="to_main" value="К основной странице"/>
+                </div>
+            </td>
+        </tr>
+    </table>
+</h:body>
+</html>
