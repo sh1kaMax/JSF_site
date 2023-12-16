@@ -22,7 +22,7 @@ public class DataBaseHandler {
     public void connectToDataBase() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", "s369065", "MNjppXhkd0n4QVHA");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", "какой-то", "да пошел ты");
             System.out.println("Успешное подключение к БД");
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Ошибка при подключении к БД!\n" + e);
